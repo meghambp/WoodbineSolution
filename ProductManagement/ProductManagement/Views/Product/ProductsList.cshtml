@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Product List";
+}
+@using PagedList;
+@using PagedList.Mvc;
+@using ProductManagement.Models
+@model IPagedList<ProductManagement.Data.Product>
+
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Product List</h1>
+            </hgroup
+            <section class="featured">
+                <div style="margin-left: 2em">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                @using (Html.BeginForm("ProductsList", "Product", FormMethod.Get))
+                                {
+                                    <p>
+                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                        <input type="submit" value="Search" />
+                                    </p>
+                                }
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <th>
+                                <table class="table" width="80%">
+                                    <tr style="font-weight:bold;">
+                                        <th width="30%">
+                                            Product Name
+                                        </th>
+                                        <th width="20%">
+                                            Category Name
+                                        </th>
+                                        <th width="30%">
+                                            Product Description
+                                        </th>
+                                        <th width="20%">
+                                            Unit Price
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    @foreach (var prd in Model)
+                                    {
+                                        <tr style="font-weight:normal;">
+                                            <td width="30%">
+                                                @prd.ProductName
+                                            </td>
+                                            <td width="20%">
+                                                @prd.Category.CategoryName
+                                            </td>
+                                            <td width="30%">
+                                                @prd.Description
+                                            </td>
+                                            <td width="20%">
+                                                @prd.UnitPrice
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Delete", "DeleteProduct", new { productid = @prd.ProductID })
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("ProductsList",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="content-wrapper main-content clear-fix"></section>
+</div>
+
+

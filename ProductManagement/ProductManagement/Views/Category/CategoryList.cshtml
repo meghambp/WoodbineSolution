@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Category List";
+}
+@using PagedList;
+@using PagedList.Mvc;
+@using ProductManagement.Models
+@model IPagedList<ProductManagement.Data.Category>
+
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Category List</h1>
+            </hgroup>
+            <section class="featured">
+                <div style="margin-left: 2em">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                @using (Html.BeginForm("CategoryList", "Category", FormMethod.Get))
+                                {
+                                    <p>
+                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                        <input type="submit" value="Search" />
+                                    </p>
+                                }
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <th>
+                                <table class="table" width="80%">
+                                    <tr style="font-weight:bold;">
+                                        <th width="30%">
+                                            Category Name
+                                        </th>
+                                        <th width="50%">
+                                            Category Description
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    @foreach (var cat in Model)
+                                    {
+                                        <tr style="font-weight:normal;">
+                                            <td width="30%">
+                                                @cat.CategoryName
+                                            </td>
+                                            <td width="50%">
+                                                @cat.Description
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Delete", "DeleteCategory", new { categoryid = @cat.CategoryID })
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                                </td>
+                        </tr>
+                    </table>
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("CategoryList",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="content-wrapper main-content clear-fix"></section>
+</div>
+
+
