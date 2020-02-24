@@ -39,7 +39,7 @@ namespace ProductManagement.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCategory([Bind(Include = "CategoryName, Description")]Category category)
+        public ActionResult AddCategory(Category category)
         {
             try
             {
