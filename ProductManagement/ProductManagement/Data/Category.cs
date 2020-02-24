@@ -11,6 +11,7 @@ namespace ProductManagement.Data
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Category
     {
@@ -21,6 +22,8 @@ namespace ProductManagement.Data
         }
     
         public int CategoryID { get; set; }
+        [Required(ErrorMessage = "Category Name is required.")]
+        [StringLength(50)]
         public string CategoryName { get; set; }
         public string Description { get; set; }
     
