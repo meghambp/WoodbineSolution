@@ -61,7 +61,7 @@ namespace ProductManagement.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProduct([Bind(Include = "ProductName, Description, UnitPrice,CategoryID")]Product product)
+        public ActionResult AddProduct(Product product)
         {
             try
             {
